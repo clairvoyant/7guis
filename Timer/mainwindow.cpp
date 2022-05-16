@@ -1,16 +1,15 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-#include "qtimer.h"
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    timer.stop();
 
-    chrono = new QTimer(this);
-    connect(chrono, SIGNAL(timeout()), this, SLOT(doTimerActivaton()));
-    chrono->start(1000);
+    connect(&timer, SIGNAL(timeout()), this, SLOT(timeoutcb()));
 }
 
 MainWindow::~MainWindow()
@@ -18,21 +17,25 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::doTimerActivaton()
+
+void MainWindow::timeoutcb()
 {
-   int n = ui->lcdNumber->intValue();
-   ui->lcdNumber->display(n+1);
+    auto progressBar = ui->progressBar;
+    auto slider      = ui->horizontalSlider;
+
+    if (progressBar->value() < slider->value())
+        progressBar->setValue(progressBar->value()+1);
 }
 
-void MainWindow::on_actionExit_triggered()
-{
-   exit(0);
-}
 
 void MainWindow::on_pushButton_clicked()
 {
-   int n = ui->lcdNumber->intValue();
-   ui->lcdNumber->display(n+1);
+   ui->progressBar->setValue(0);
+   ui->progressBar->setMaximum(ui->horizontalSlider->value());
+   timer.start(1000);
+}
 
-   chrono->blockSignals(!chrono->signalsBlocked());
+void MainWindow::on_horizontalSlider_sliderMoved(int position)
+{
+    ui->progressBar->setMaximum(position);
 }

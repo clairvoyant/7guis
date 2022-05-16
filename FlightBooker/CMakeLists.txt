@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(Timer LANGUAGES CXX)
+project(FlightBooker LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -27,14 +27,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
 if(ANDROID)
-  add_library(Timer SHARED
+  add_library(FlightBooker SHARED
     main.cpp
     mainwindow.cpp
     mainwindow.h
     mainwindow.ui
   )
 else()
-  add_executable(Timer
+  add_executable(FlightBooker
     main.cpp
     mainwindow.cpp
     mainwindow.h
@@ -42,4 +42,4 @@ else()
   )
 endif()
 
-target_link_libraries(Timer PRIVATE Qt5::Widgets)
+target_link_libraries(FlightBooker PRIVATE Qt5::Widgets)

@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,14 +16,16 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_clicked();
-    void timeoutcb();
 
-    void on_horizontalSlider_sliderMoved(int position);
+    void on_dateEdit_userDateChanged(const QDate &date);
+
+    void on_pushButton_clicked();
+
+    void on_comboBox_currentIndexChanged(int index);
 
 private:
     Ui::MainWindow *ui;
-    QTimer          timer;
 
+    void check_combo_status();
 };
 #endif // MAINWINDOW_H
